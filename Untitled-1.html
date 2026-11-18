@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Shop</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .cakes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 30px;
+        }
+
+        .cake {
+            text-align: center;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            box-shadow: 0 0 8px gray;
+        }
+
+        .cake img {
+            width: 180px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: darkblue;
+        }
+
+        form {
+            background-color: white;
+            width: 350px;
+            max-width: 90%;
+            margin: auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px gray;
+        }
+
+        label {
+            color: blue;
+            font-weight: bold;
+        }
+
+        input {
+            width: 95%;
+            padding: 8px;
+            margin: 8px 0 15px;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+
+        input.error {
+            border: 2px solid red;
+        }
+
+        button {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: darkblue;
+        }
+
+        #bill {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        #total {
+            color: red;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        #errorMessage {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>CAKE SHOP</h1>
+
+    <div class="cakes">
+
+        <div class="cake">
+            <img src="image1.jpg" alt="Color Cake">
+            <h3>Color Cake</h3>
+            <p>Price: Rs. 300</p>
+        </div>
+
+        <div class="cake">
+            <img src="image2.jpg" alt="Brown Cake">
+            <h3>Brown Cake</h3>
+            <p>Price: Rs. 200</p>
+        </div>
+
+        <div class="cake">
+            <img src="image3.jpg" alt="Milky Cake">
+            <h3>Milky Cake</h3>
+            <p>Price: Rs. 250</p>
+        </div>
+
+        <div class="cake">
+            <img src="image4.jpg" alt="Black Forest Cake">
+            <h3>Black Forest Cake</h3>
+            <p>Price: Rs. 350</p>
+        </div>
+
+    </div>
+
+    <h2>Order Cake</h2>
+
+    <form id="orderForm" action="#" method="get">
+
+        <label for="color">Color Cake (Rs. 300):</label>
+        <input type="number" id="color" min="0" step="1"
+               placeholder="Enter quantity">
+
+        <label for="brown">Brown Cake (Rs. 200):</label>
+        <input type="number" id="brown" min="0" step="1"
+               placeholder="Enter quantity">
+
+        <label for="milky">Milky Cake (Rs. 250):</label>
+        <input type="number" id="milky" min="0" step="1"
+               placeholder="Enter quantity">
+
+        <label for="blackforest">Black Forest Cake (Rs. 350):</label>
+        <input type="number" id="blackforest" min="0" step="1"
+               placeholder="Enter quantity">
+
+        <button type="submit">Place Order</button>
+
+        <p id="errorMessage"></p>
+
+    </form>
+
+    <div id="bill">
+        <h2>Purchase Order Bill</h2>
+        <h3>Total Price: <span id="total">Rs. 0</span></h3>
+    </div>
+
+    <script>
+        const form = document.getElementById("orderForm");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const color = document.getElementById("color");
+            const brown = document.getElementById("brown");
+            const milky = document.getElementById("milky");
+            const blackforest = document.getElementById("blackforest");
+
+            const quantities = [
+                color, brown, milky, blackforest
+            ];
+
+            const errorMessage =
+                document.getElementById("errorMessage");
+
+            const totalDisplay =
+                document.getElementById("total");
+
+            let valid = true;
+
+            quantities.forEach(function(input) {
+                input.classList.remove("error");
+
+                const value = input.value;
+
+                if (
+                    value.trim() === "" ||
+                    !Number.isInteger(Number(value)) ||
+                    Number(value) < 0
+                ) {
+                    valid = false;
+                    input.classList.add("error");
+                }
+            });
+
+            if (!valid) {
+                errorMessage.textContent =
+                    "Please enter valid whole-number quantities (0 or more) in all fields.";
+
+                totalDisplay.textContent = "Not calculated";
+                return;
+            }
+
+            errorMessage.textContent = "";
+
+            const total =
+                Number(color.value) * 300 +
+                Number(brown.value) * 200 +
+                Number(milky.value) * 250 +
+                Number(blackforest.value) * 350;
+
+            totalDisplay.textContent = "Rs. " + total;
+        });
+    </script>
+</script>
+</body>
+</html>
